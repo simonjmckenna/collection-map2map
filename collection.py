@@ -112,7 +112,7 @@ def extract_double(thisBlock):
     value = str(struct.unpack('d',fpdata)[0])
     return value
 
-def process_textblock(thisBlock,size):
+def process_textblock(thisBlock,size,strip_comma):
     txt = []
 
     if size == -1:
@@ -142,7 +142,11 @@ def process_textblock(thisBlock,size):
            txt.append('-')
            byte = thisBlock.read(1)
            i += 3
-        txt.append(chr(byte[0]))
+        # process a comma specially as we may be in a csv file
+        if chr(byte[0]) == ',' and strip_comma == 1:
+               txt.append(';')
+        else:
+            txt.append(chr(byte[0]))
         i += 1
     if detail == 1:
        print ("process_textblock: "+''.join(txt))
@@ -150,7 +154,7 @@ def process_textblock(thisBlock,size):
     return ''.join(txt)
 
 def collection_name(thisBlock):
-     name=process_textblock(thisBlock,thisBlock.length)
+     name=process_textblock(thisBlock,thisBlock.length,0)
      print ("collection name: ",name)
      return name
      
@@ -163,7 +167,7 @@ def entry_data(thisBlock):
 
          #we have an entry_idetifier        
          if entry_type[0] == 0x1a:
-             thisEntry.identifier = process_textblock(thisBlock,0)
+             thisEntry.identifier = process_textblock(thisBlock,0,0)
              thisEntry.valid()
              got_entry =1
 
@@ -183,7 +187,7 @@ def entry_data(thisBlock):
 
          # Entry is latitude/longditude
          if entry_type[0] == 0x2a:
-             thisEntry.name = process_textblock(thisBlock,0)
+             thisEntry.name = process_textblock(thisBlock,0,1)
              got_entry =1 
              thisEntry.valid()
          # didnt find a known one 
@@ -338,7 +342,7 @@ def processCollection(my_collection):
     o = open(outputFile,"wt")
 
     o.write(header)
-    e = 1
+    e = 0
     for entry in entries:
        o.write(entry)
        e+=1 
