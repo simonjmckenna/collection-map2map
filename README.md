@@ -3,9 +3,9 @@ Code to translate an Apple Maps collection (stored as data in an URL) to google 
 
 This is a piece of python code (apologies I'm using this as part of an exercise to learn a bit of python - so my python code will not be brilliant) that turns the encoded Apple maps collection data (stored in the URL) into a CSV file that can be used by google maps as input data.
 
-The script was developed under windows subsystem for linux. 
+The script was developed under windows subsystem for linux, and is used to maintain a google maps version of a apple maps collection of chargepoints in Scotland that work with the Jaguar Ipace. 
 
-The collection data is shared as a URL with all the colelction data as a veriable "_col" in that URL. 
+The collection data is shared as a URL with all the collection data as a variable "_col" in that URL. 
 
  href="https://collections.apple.com/collection?_col=Cg1Hb29kIENoY...YhDMAqF1RodXJzbyBDUFMgKFBhcmsgSG90ZWwp"
  
